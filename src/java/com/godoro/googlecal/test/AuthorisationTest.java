@@ -48,10 +48,10 @@ public class AuthorisationTest {
         HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
-        String clientId = "310094007194-8vjru4juqokls3cvdqq8bv2kj4k7mqqa.apps.googleusercontent.com";
-        String clientSecret = "BzapxG21JmAL0erEHtxNsMHp";
+        String clientId = "615218358964-41ldsj2bgjukoooumb7p0ls452fsiag5.apps.googleusercontent.com";
+        String clientSecret = "KytU04to3VYfpj1j-viGMIXf";
 
-        String redirectUrl = "http://localhost";
+        String redirectUrl = "urn:ietf:wg:oauth:2.0:oob";
         String scope = "https://www.googleapis.com/auth/calendar";
 
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow(httpTransport, jsonFactory, clientId, clientSecret,
@@ -76,12 +76,12 @@ public class AuthorisationTest {
 
         Calendar service = new Calendar.Builder(httpTransport, jsonFactory, credential)
                 .setApplicationName(authorizationUrl)
-                .setApplicationName("My first Project").build();
+                .setApplicationName("mySecondProject").build();
 
         String pageToken = null;
         
         do {
-            Events events = service.events().list(clientId).setPageToken(pageToken).execute();
+            Events events = service.events().list("primary").setPageToken(pageToken).execute();
             
                     
                     
@@ -91,6 +91,11 @@ public class AuthorisationTest {
             }
             pageToken = events.getNextPageToken();
         } while (pageToken != null);
+        
+//        Event event=new Event();
+//        event.setSummary("appointment");
+//        event.setLocation("somewhere");
+        
 
     }
 
