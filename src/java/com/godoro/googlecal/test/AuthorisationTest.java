@@ -14,15 +14,21 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventAttendee;
+import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import sun.net.www.protocol.http.HttpURLConnection;
 
 /**
@@ -78,24 +84,40 @@ public class AuthorisationTest {
                 .setApplicationName(authorizationUrl)
                 .setApplicationName("mySecondProject").build();
 
-        String pageToken = null;
+//        String pageToken = null;
+//        
+//        do {
+//            Events events = service.events().list("primary").setPageToken(pageToken).execute();
+//            
+//                    
+//                    
+//            List<Event> items = events.getItems();
+//            for (Event event : items) {
+//                System.out.println(event.getSummary());
+//            }
+//            pageToken = events.getNextPageToken();
+//        } while (pageToken != null);
         
-        do {
-            Events events = service.events().list("primary").setPageToken(pageToken).execute();
-            
-                    
-                    
-            List<Event> items = events.getItems();
-            for (Event event : items) {
-                System.out.println(event.getSummary());
-            }
-            pageToken = events.getNextPageToken();
-        } while (pageToken != null);
+        Event event=new Event();
+        event.setSummary("appointment");
+        event.setLocation("somewhere");
+
         
-//        Event event=new Event();
-//        event.setSummary("appointment");
-//        event.setLocation("somewhere");
+        ArrayList<EventAttendee> attendees = new ArrayList<EventAttendee>();
+        attendees.add(new EventAttendee().setEmail("email@erolerten.com"));
         
+        event.setAttendees(attendees);
+        
+        Date startDate = new Date();
+        Date endDate = new Date(startDate.getTime()+3600);
+        DateTime start = new DateTime(startDate, TimeZone.getTimeZone("UTC"));
+        event.setStart(new EventDateTime().setDateTime(start));
+        DateTime end= new DateTime(endDate, TimeZone.getTimeZone("UTC"));
+        event.setEnd(new EventDateTime().setDateTime(end));
+        
+        Event createdEvent= service.events().insert("primary", event).execute();
+        
+        System.out.println(createdEvent.getId());
 
     }
 
