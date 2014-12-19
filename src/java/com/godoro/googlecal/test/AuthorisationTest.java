@@ -54,8 +54,8 @@ public class AuthorisationTest {
         HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
         JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
 
-        String clientId = "615218358964-41ldsj2bgjukoooumb7p0ls452fsiag5.apps.googleusercontent.com";
-        String clientSecret = "KytU04to3VYfpj1j-viGMIXf";
+        String clientId = "CLIEND_ID";
+        String clientSecret = "CLIENT_SECRET";
 
         String redirectUrl = "urn:ietf:wg:oauth:2.0:oob";
         String scope = "https://www.googleapis.com/auth/calendar";
@@ -104,7 +104,7 @@ public class AuthorisationTest {
 
         
         ArrayList<EventAttendee> attendees = new ArrayList<EventAttendee>();
-        attendees.add(new EventAttendee().setEmail("email@erolerten.com"));
+        attendees.add(new EventAttendee().setEmail("EMAIL_ADDRESS_HERE"));
         
         event.setAttendees(attendees);
         
